@@ -1,11 +1,8 @@
 import bcrypt from 'bcrypt'
-import { config } from 'dotenv'
 import { validationResult } from "express-validator"
 import jwt from 'jsonwebtoken'
 import pool from "../db.js"
-import {body} from 'express-validator'
 
-config()
 
 export const signup = async (req, res, next) => {
     const {email, password, name} = req.body

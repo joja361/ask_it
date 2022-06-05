@@ -1,9 +1,21 @@
 import express from "express"
 import routes from './routes/index.js'
+import cors from 'cors'
 
 const app = express()
 
+const port = process.env.PORT_BACKEND || 8080
+
+
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    // credentials: true, 
+    // optionSuccessStatus: 200
+}
+
 app.use(express.json())
+app.use(cors(corsOptions))
 
 // ROUTES ARE HERE IN ONE PLACE
 app.use('/', routes)
@@ -20,7 +32,6 @@ app.use((error, req, res, next) => {
     })
 })
 
-
-app.listen(3000, () => {
-    console.log('server running on port 3000')
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`)
 })
