@@ -1,37 +1,34 @@
-import express from "express"
-import routes from './routes/index.js'
-import cors from 'cors'
+import express from "express";
+import routes from "./routes/index.js";
+import cors from "cors";
 
-const app = express()
+const app = express();
 
-const port = process.env.PORT_BACKEND || 8080
-
-
+const port = process.env.PORT_BACKEND || 8080;
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
-    // credentials: true, 
-    // optionSuccessStatus: 200
-}
+  origin: "http://localhost:3000",
+  // credentials: true,
+  // optionSuccessStatus: 200
+};
 
-app.use(express.json())
-app.use(cors(corsOptions))
+app.use(express.json());
+app.use(cors(corsOptions));
 
 // ROUTES ARE HERE IN ONE PLACE
-app.use('/', routes)
+app.use("/", routes);
 
-
-// ERROR 
+// ERROR
 app.use((error, req, res, next) => {
-    const {message, data} = error
-    const status = error.statusCode || 500
+  const { message, data } = error;
+  const status = error.statusCode || 500;
 
-    res.status(status).json({
-        message, 
-        data
-    })
-})
+  res.status(status).json({
+    message,
+    data,
+  });
+});
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
-})
+  console.log(`Server running on port ${port}`);
+});

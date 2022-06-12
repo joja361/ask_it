@@ -1,22 +1,24 @@
-import { Router } from "express"
-import { getPeopleWithMostReponses } from "../controllers/other.js"
-import pool from "../db.js"
-import auth from './auth.js'
-import questions from './questions.js'
+import { Router } from "express";
+import { getPeopleWithMostReponses } from "../controllers/other.js";
+import pool from "../db.js";
+import auth from "./auth.js";
+import questions from "./questions.js";
+import user from "./user.js";
 
-const router = Router()
+const router = Router();
 
-router.use('/auth', auth)
-router.use('/questions', questions)
-router.get('/most-responses', getPeopleWithMostReponses)
-router.get('/get-it', async (req, res, next) => {
-    try {
-        const text = `SELECT email FROM account`
-        const {rows: test} = await pool.query(text)
-        res.send(test)
-    } catch(err) {
-        res.send(err)
-    }
-})
+router.use("/auth", auth);
+router.use("/user", user);
+router.use("/questions", questions);
+router.get("/most-responses", getPeopleWithMostReponses);
+router.get("/get-it", async (req, res, next) => {
+  try {
+    const text = `SELECT email FROM account`;
+    const { rows: test } = await pool.query(text);
+    res.send(test);
+  } catch (err) {
+    res.send(err);
+  }
+});
 
-export default router
+export default router;

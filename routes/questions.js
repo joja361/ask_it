@@ -1,15 +1,23 @@
 import { Router } from "express";
-import { createQuestion, createResponse, getMyQuestions, getQuestion, getQuestions, getReponses, likeQuestion } from "../controllers/questions.js";
+import {
+  createQuestion,
+  createResponse,
+  getQuestion,
+  getQuestions,
+  getReponses,
+  likeQuestion,
+} from "../controllers/questions.js";
 import { isAuth } from "../middleware/is-auth.js";
 
-const router = Router()
+const router = Router();
 
-router.get('/', getQuestions)
-router.post('/', isAuth, createQuestion)
-router.get('/:id', isAuth, getQuestion)
-router.get('/:id/responses', isAuth, getReponses )
-router.post('/:id', isAuth, createResponse )
-router.post('/:id/like', isAuth, likeQuestion)
-router.get('/:userId', isAuth, getMyQuestions)
+router.get("/", getQuestions);
+router.get("/:id", getQuestion);
+router.post("/", isAuth, createQuestion);
+router.post("/:id", isAuth, createResponse);
+router.get("/:id/responses", getReponses);
+router.post("/:id/like", isAuth, likeQuestion);
 
-export default router
+export default router;
+
+//questions/:id POST

@@ -1,7 +1,7 @@
-import pool from "../db.js"
+import pool from "../db.js";
 
 export const getPeopleWithMostReponses = async (req, res, next) => {
-    const text = `
+  const text = `
     WITH top_responders AS (
         SELECT user_id, COUNT(*) AS num_of_responses FROM responses
         GROUP BY user_id
@@ -11,11 +11,11 @@ export const getPeopleWithMostReponses = async (req, res, next) => {
         JOIN top_responders t
         ON a.id = t.user_id
         ORDER BY t.num_of_responses desc;
-    `
-    try {
-        const {rows: peopleWithMostResponses} = await pool.query(text)
-        res.send(peopleWithMostResponses)
-    } catch(err) {
-        next(err)
-    }
-}
+    `;
+  try {
+    const { rows: peopleWithMostResponses } = await pool.query(text);
+    res.send(peopleWithMostResponses);
+  } catch (err) {
+    next(err);
+  }
+};
