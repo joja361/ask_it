@@ -26,14 +26,14 @@ export const getMyQuestions = async (req, res, next) => {
   }
 };
 
-export const getTotalNumberOfQuestions = async (req, res, next) => {
+export const getTotalNumberOfMyQuestions = async (req, res, next) => {
   const text = `
     SELECT COUNT(*) FROM questions
     WHERE user_id = $1`;
   try {
     const { rows } = await pool.query(text, [req.userId]);
     const { count } = rows[0];
-    res.send({ totalNumOfQuestions: +count });
+    res.send({ totalNumOfMyQuestions: +count });
   } catch (error) {
     next(err);
   }

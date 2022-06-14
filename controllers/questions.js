@@ -41,18 +41,19 @@ export const createResponse = async (req, res, next) => {
 };
 
 export const getQuestions = async (req, res, next) => {
-  const { last, mostLiked } = req.query;
+  const { moreQuestions, mostLiked } = req.query;
 
-  if (last) {
-    const getLastQuestions =
-      last > 5 ? `OFFSET ${last - 5} LIMIT 5` : `LIMIT 5`;
-    const text = `
+  const getMoreQuestions =
+    moreQuestions > 0 ? `OFFSET ${+moreQuestions} LIMIT 5` : `LIMIT 5`;
+
+  const text = `
       SELECT a.name, a.email, q.id, q.question, q.description,  q.created_at FROM questions q 
       LEFT JOIN account a 
       ON q.user_id = a.id 
       ORDER BY q.created_at DESC 
-      ${getLastQuestions}`;
+      ${getMoreQuestions}`;
 
+  if (!mostLiked) {
     try {
       const { rows: questions } = await pool.query(text);
       return res.send(questions);
@@ -121,6 +122,19 @@ export const getReponses = async (req, res, next) => {
     const { rows: responses } = await pool.query(text, [questionId]);
     res.send(responses);
   } catch (err) {
+    next(err);
+  }
+};
+
+export const getTotalNumberOfQuestions = async (req, res, next) => {
+  const text = `
+    SELECT COUNT(*) FROM questions;`;
+
+  try {
+    const { rows } = await pool.query(text);
+    const { count } = rows[0];
+    res.send({ totalNumOfQuestions: +count });
+  } catch (error) {
     next(err);
   }
 };
