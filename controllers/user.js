@@ -9,17 +9,22 @@ export const isMyQuestion = (req, res, next) => {
 };
 
 export const getMyQuestions = async (req, res, next) => {
-  const { last } = req.query;
+  const { moreQuestions } = req.query;
 
-  const getLastQuestions = last > 5 ? `OFFSET ${last - 5} LIMIT 5` : `LIMIT 5`;
+  console.log(moreQuestions);
+
+  const getMoreQuestions =
+    moreQuestions > 0 ? `OFFSET ${+moreQuestions} LIMIT 5` : `LIMIT 5`;
+  console.log(getMoreQuestions);
 
   const text = `SELECT * FROM questions
           WHERE user_id = $1
           ORDER BY created_at DESC
-          ${getLastQuestions};`;
+          ${getMoreQuestions};`;
 
   try {
     const { rows: myQuestions } = await pool.query(text, [req.userId]);
+    console.log(myQuestions);
     res.send(myQuestions);
   } catch (err) {
     next(err);

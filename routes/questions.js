@@ -13,7 +13,7 @@ import { isAuth } from "../middleware/is-auth.js";
 const router = Router();
 
 router.get("/", getQuestions);
-router.get("/totalQuestions", isAuth, getTotalNumberOfQuestions);
+router.get("/totalQuestions", getTotalNumberOfQuestions);
 router.get("/:id", getQuestion);
 router.post("/", isAuth, createQuestion);
 router.post("/:id", isAuth, createResponse);
